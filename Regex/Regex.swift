@@ -66,7 +66,7 @@ public class Regex : RegexType {
         self.pattern = pattern
         self.groupNames = groupNames
         do {
-            self.compiled = try self.dynamicType.compile(pattern: pattern, options: options)
+            self.compiled = try type(of: self).compile(pattern: pattern, options: options)
         } catch let e {
             self.compiled = nil
             throw e
