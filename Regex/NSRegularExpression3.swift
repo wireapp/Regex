@@ -48,13 +48,13 @@ import Foundation
 #endif
 
 #if swift(>=3.0) && !os(Linux)
+
 #else
     public extension NSRegularExpression {
         public typealias Options = NSRegularExpressionOptions
         public typealias MatchingOptions = NSMatchingOptions
     }
-
-    public typealias RegularExpression = NSRegularExpression
-    public typealias TextCheckingResult = NSTextCheckingResult
 #endif
 
+public typealias RegularExpression = NSRegularExpression
+public typealias TextCheckingResult = NSTextCheckingResult
