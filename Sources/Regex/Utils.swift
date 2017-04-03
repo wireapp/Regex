@@ -1,4 +1,4 @@
-//===--- PlatformTypes.swift -----------------------------------------------===//
+//===--- Utils.swift ------------------------------------------------------===//
 //Copyright (c) 2016 Daniel Leping (dileping)
 //
 //Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,26 @@
 
 import Foundation
 
-//here we use NSRegularExpression
-typealias CompiledPattern = RegularExpression
-typealias CompiledMatchContext = [TextCheckingResult]
-typealias CompiledPatternMatch = TextCheckingResult
-typealias GroupRange = NSRange
+public typealias StringRange = Range<String.Index>
+
+#if !os(Linux)
+    extension NSTextCheckingResult {
+        func range(at idx: Int) -> NSRange {
+            return rangeAt(idx)
+        }
+    }
+#endif
+
+extension Sequence where Iterator.Element : Hashable {
+    var indexHash:Dictionary<Iterator.Element, Int> {
+        get {
+            var result = Dictionary<Iterator.Element, Int>()
+            var index = 0
+            for e in self {
+                result[e] = index
+                index += 1
+            }
+            return result
+        }
+    }
+}

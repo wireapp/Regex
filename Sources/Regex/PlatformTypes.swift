@@ -1,4 +1,4 @@
-//===--- GroupRangeUtils.swift --------------------------------------------===//
+//===--- PlatformTypes.swift -----------------------------------------------===//
 //Copyright (c) 2016 Daniel Leping (dileping)
 //
 //Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,22 +15,16 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import Boilerplate
-    
-enum InvalidRangeError : Error {
-    case Error
-}
 
-extension GroupRange {
-    func asRange(ofString source:String) throws -> StringRange {
-        let len = source.characters.count
-        if self.location < 0 || self.location >= len || self.location + self.length > len {
-            throw InvalidRangeError.Error
-        }
-        
-        let start = source.index(source.startIndex, offsetBy: self.location)
-        let end = source.index(start, offsetBy: self.length)
-        
-        return start ..< end
-    }
-}
+#if !os(Linux)
+    //here we use NSRegularExpression
+    typealias CompiledPattern = NSRegularExpression
+    typealias CompiledMatchContext = [NSTextCheckingResult]
+    typealias CompiledPatternMatch = NSTextCheckingResult
+    typealias GroupRange = NSRange
+#else
+    typealias CompiledPattern = NSRegularExpression
+    typealias CompiledMatchContext = [TextCheckingResult]
+    typealias CompiledPatternMatch = TextCheckingResult
+    typealias GroupRange = NSRange
+#endif
